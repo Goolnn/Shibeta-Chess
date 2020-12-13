@@ -14,6 +14,8 @@ gboolean LeaveButton(GtkWidget*, GdkEventButton*, gpointer);
 gboolean WindowMove(GtkWidget*, GdkEventButton*, gpointer);
 gboolean WindowResize(GtkWidget*, GdkEventButton*, gpointer);
 
+gboolean WindowEvent(GtkWidget*, GdkEventWindowState*, gpointer);
+
 // 窗口按钮点击事件
 gboolean LeftButtonPress(GtkWidget*, GdkEventButton*, gpointer);
 gboolean MiddleButtonPress(GtkWidget*, GdkEventButton*, gpointer);
