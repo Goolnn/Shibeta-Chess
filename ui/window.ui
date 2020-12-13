@@ -1,0 +1,140 @@
+<interface>
+    <object class="GtkWindow" id="window">
+        <property name="title">助屋棋</property>
+        <property name="decorated">False</property>
+
+        <property name="default-width">720</property>
+        <property name="default-height">540</property>
+
+        <child>
+            <object class="GtkEventBox" id="root">
+                <!-- <property name="above-child">True</property> -->
+
+                <child>
+                    <object class="GtkGrid">
+                        <child>
+                            <object class="GtkBox">
+                                <property name="height-request">30</property>
+                                <property name="hexpand">True</property>
+
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label">助屋棋</property>
+
+                                        <property name="margin-start">8</property>
+                                        <property name="margin-end">8</property>
+
+                                    </object>
+
+                                    <packing>
+                                        <property name="position">0</property>
+
+                                    </packing>
+
+                                </child>
+
+                                <child>
+                                    <object class="GtkEventBox" id="titleBar">
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="hexpand">True</property>
+
+                                            </object>
+
+                                        </child>
+
+                                    </object>
+
+                                    <packing>
+                                        <property name="position">1</property>
+
+                                    </packing>
+                                </child>
+
+                                <child>
+                                    <object class="GtkEventBox" id="leftButton">
+                                        <child>
+                                            <object class="GtkImage">
+                                                <property name="width-request">30</property>
+                                                <property name="height-request">30</property>
+
+                                                <property name="pixbuf">../res/icon/minimize.svg</property>
+
+                                            </object>
+
+                                        </child>
+                                    
+                                    </object>
+
+                                    <packing>
+                                        <property name="position">2</property>
+
+                                    </packing>
+
+                                </child>
+
+                                <child>
+                                    <object class="GtkEventBox" id="middleButton">
+                                        <child>
+                                            <object class="GtkImage">
+                                                <property name="width-request">30</property>
+                                                <property name="height-request">30</property>
+
+                                                <property name="pixbuf">../res/icon/maximize.svg</property>
+
+                                            </object>
+                                        
+                                        </child>
+                                    
+                                    </object>
+
+                                    <packing>
+                                        <property name="position">3</property>
+
+                                    </packing>
+
+                                </child>
+
+                                <child>
+                                    <object class="GtkEventBox" id="rightButton">
+                                        <child>
+                                            <object class="GtkImage">
+                                                <property name="width-request">30</property>
+                                                <property name="height-request">30</property>
+
+                                                <property name="pixbuf">../res/icon/close.svg</property>
+
+                                            </object>
+
+                                        </child>
+
+                                    </object>
+
+                                    <packing>
+                                        <property name="position">4</property>
+
+                                    </packing>
+
+                                </child>
+
+                            </object>
+
+                            <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+
+                            </packing>
+
+                        </child>
+
+                    </object>
+
+                </child>
+
+            </object>
+
+        </child>
+
+    </object>
+
+</interface>

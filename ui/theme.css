@@ -1,0 +1,51 @@
+@keyframes entry-button{
+    from {background: #F6F5F4;}
+    to {background: #DDDDDD;}
+
+}
+
+@keyframes leave-button{
+    from {background: #DDDDDD;}
+    to {background: #F6F5F4;}
+
+}
+
+@keyframes entry-button-red{
+    from {background: #F6F5F4;}
+    to {background: #ff6666;}
+
+}
+
+@keyframes leave-button-red{
+    from {background: #ff6666;}
+    to {background: #F6F5F4;}
+
+}
+
+#entry-button{
+    animation-name: entry-button;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+
+}
+
+#leave-button{
+    animation-name: leave-button;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+
+}
+
+#entry-button-red{
+    animation-name: entry-button-red;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+
+}
+
+#leave-button-red{
+    animation-name: leave-button-red;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+
+}
