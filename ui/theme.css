@@ -24,28 +24,28 @@
 
 #entry-button{
     animation-name: entry-button;
-    animation-duration: 0.75s;
+    animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
 }
 
 #leave-button{
     animation-name: leave-button;
-    animation-duration: 0.75s;
+    animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
 }
 
 #entry-button-red{
     animation-name: entry-button-red;
-    animation-duration: 0.75s;
+    animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
 }
 
 #leave-button-red{
     animation-name: leave-button-red;
-    animation-duration: 0.75s;
+    animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
 }

@@ -3,22 +3,25 @@
 
 #include <gtk/gtk.h>
 
-// 初始化窗口
-void Window_InitWindow();
+#define RESIZE_BORDER 10
+
+void window_init(GtkApplication* application);
 
 // 鼠标进入或离开按钮时触发的事件按钮时触发的事件
-gboolean EntryButton(GtkWidget*, GdkEventButton*, gpointer);
-gboolean LeaveButton(GtkWidget*, GdkEventButton*, gpointer);
+gboolean mouse_entry_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean mouse_leave_button(GtkWidget*,GdkEventButton*,gpointer);
 
 // 窗口移动事件和窗口大小调整事件
-gboolean WindowMove(GtkWidget*, GdkEventButton*, gpointer);
-gboolean WindowResize(GtkWidget*, GdkEventButton*, gpointer);
+gboolean window_move(GtkWidget*,GdkEventButton*,gpointer);
+gboolean window_resize(GtkWidget*,GdkEventButton*,gpointer);
 
-gboolean WindowEvent(GtkWidget*, GdkEventWindowState*, gpointer);
+gboolean window_event(GtkWidget*,GdkEventWindowState*,gpointer);
 
 // 窗口按钮点击事件
-gboolean LeftButtonPress(GtkWidget*, GdkEventButton*, gpointer);
-gboolean MiddleButtonPress(GtkWidget*, GdkEventButton*, gpointer);
-gboolean RightButtonPress(GtkWidget*, GdkEventButton*, gpointer);
+gboolean left_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean middle_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean right_button(GtkWidget*,GdkEventButton*,gpointer);
+
+gboolean title_button(GtkWidget*,GdkEventButton*,gpointer);
 
 #endif
