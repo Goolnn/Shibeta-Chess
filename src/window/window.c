@@ -1,16 +1,76 @@
 #include <gtk/gtk.h>
 
-#include "../thread/MainThread.h"
-#include "Window.h"
+#include "window.h"
 
-void window_init(GtkApplication* application){
-    //初始化程序窗口
-    GtkWidget* window=gtk_application_window_new(application);
+//初始化窗口
+void window_init(Window*);
+
+//鼠标进入或离开按钮时触发的事件按钮时触发的事件
+gboolean mouse_entry_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean mouse_leave_button(GtkWidget*,GdkEventButton*,gpointer);
+
+//窗口移动事件和窗口大小调整事件
+gboolean window_move(GtkWidget*,GdkEventButton*,gpointer);
+gboolean window_resize(GtkWidget*,GdkEventButton*,gpointer);
+
+gboolean window_event(GtkWidget*,GdkEventWindowState*,gpointer);
+
+//窗口按钮点击事件
+gboolean left_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean middle_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean right_button(GtkWidget*,GdkEventButton*,gpointer);
+
+gboolean title_button(GtkWidget*,GdkEventButton*,gpointer);
+
+Window* shibetachess_window_new(GtkApplication* application){
+    //创建源窗口
+    GtkWidget* source=gtk_application_window_new(application);
+
+    //创建窗口
+    Window* window=calloc(1,sizeof(Window));
+    //初始化源窗口
+    window->source=source;
+
+    //初始化源窗口参数
+    window_init(window);
+
+    return window;
+
+}
+
+void shibetachess_window_set_title(Window* window,const char* title){
+    gtk_window_set_title(GTK_WINDOW(window->source),title);
+    gtk_label_set_label(GTK_LABEL(window->title),title);
+
+}
+
+void shibetachess_window_set_subtitle(Window* window,const char* subtitle){
+    gtk_label_set_label(GTK_LABEL(window->subtitle),subtitle);
+
+}
+
+void shibetachess_window_show(Window* window){
+    gtk_widget_show_all(window->source);
+
+}
+
+void window_init(Window* window){
+    //初始化窗口透明
+    GdkScreen* screen=gtk_widget_get_screen(GTK_WIDGET(window->source));
+    GdkVisual* visual=gdk_screen_get_rgba_visual(screen);
+
+    if(visual==NULL){
+        visual=gdk_screen_get_system_visual(screen);
+
+    }
+
+    gtk_widget_set_visual(window->source,visual);
 
     //设置程序窗口参数
-    gtk_window_set_title(GTK_WINDOW(window),"助屋棋");              //设置窗口标题
-    gtk_window_set_default_size(GTK_WINDOW(window),640,480);        //设置窗口大小
-    gtk_window_set_decorated(GTK_WINDOW(window),FALSE);             //隐藏窗口装饰
+    gtk_window_set_default_size(GTK_WINDOW(window->source),640,480);        //设置窗口大小
+    gtk_window_set_decorated(GTK_WINDOW(window->source),FALSE);             //隐藏窗口装饰
+
+    gtk_widget_set_app_paintable(window->source,TRUE);
 
     //读取程序界面文件
     GtkBuilder* builder=gtk_builder_new();
@@ -18,7 +78,7 @@ void window_init(GtkApplication* application){
 
     //获取并添加主界面
     GObject* root=gtk_builder_get_object(builder,"root");
-    gtk_container_add(GTK_CONTAINER(window),GTK_WIDGET(root));
+    gtk_container_add(GTK_CONTAINER(window->source),GTK_WIDGET(root));
 
     //窗口按钮
     GObject* leftButton=gtk_builder_get_object(builder,"leftButton");
@@ -26,7 +86,7 @@ void window_init(GtkApplication* application){
     GObject* rightButton=gtk_builder_get_object(builder,"rightButton");
 
     //窗口标题
-    GObject* titleLabel=gtk_builder_get_object(builder,"titleLabel");
+    GObject* titleBox=gtk_builder_get_object(builder,"titleBox");
 
     //标题面板
     GObject* titleBar=gtk_builder_get_object(builder,"titleBar");
@@ -34,37 +94,40 @@ void window_init(GtkApplication* application){
     //窗口按钮事件
     g_signal_connect(leftButton,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
     g_signal_connect(leftButton,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
-    g_signal_connect(leftButton,"button-press-event",G_CALLBACK(left_button),window);
+    g_signal_connect(leftButton,"button-press-event",G_CALLBACK(left_button),window->source);
 
     g_signal_connect(middleButton,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
     g_signal_connect(middleButton,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
-    g_signal_connect(middleButton,"button-press-event",G_CALLBACK(middle_button),window);
+    g_signal_connect(middleButton,"button-press-event",G_CALLBACK(middle_button),window->source);
 
     g_signal_connect(rightButton,"enter-notify-event",G_CALLBACK(mouse_entry_button),rightButton);
     g_signal_connect(rightButton,"leave-notify-event",G_CALLBACK(mouse_leave_button),rightButton);
     g_signal_connect(rightButton,"button-press-event",G_CALLBACK(right_button),NULL);
 
     //窗口最大化事件
-    g_signal_connect(window,"window-state-event",G_CALLBACK(window_event),middleButton);
+    g_signal_connect(window->source,"window-state-event",G_CALLBACK(window_event),middleButton);
 
     //窗口按钮动画
-    g_signal_connect(titleLabel,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
-    g_signal_connect(titleLabel,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
-    g_signal_connect(titleLabel,"button-press-event",G_CALLBACK(title_button),NULL);
+    g_signal_connect(titleBox,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
+    g_signal_connect(titleBox,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
+    g_signal_connect(titleBox,"button-press-event",G_CALLBACK(title_button),NULL);
     
     //窗口调整事件
-    g_signal_connect(root,"button-press-event",G_CALLBACK(window_resize),window);
+    g_signal_connect(root,"button-press-event",G_CALLBACK(window_resize),window->source);
 
     //窗口移动事件
-    g_signal_connect(titleBar,"button-press-event",G_CALLBACK(window_move),window);
+    g_signal_connect(titleBar,"button-press-event",G_CALLBACK(window_move),window->source);
 
     //加载CSS文件
     GtkCssProvider* provider=gtk_css_provider_new();
     gtk_css_provider_load_from_path(provider,"./ui/theme.css",NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),GTK_STYLE_PROVIDER(provider),GTK_STYLE_PROVIDER_PRIORITY_USER);
 
-    //显示窗口
-    gtk_widget_show_all(window);
+    //初始化窗口结构体内容
+    window->title=GTK_WIDGET(gtk_container_get_children(GTK_CONTAINER(titleBox))->data);
+    window->subtitle=GTK_WIDGET(gtk_builder_get_object(builder,"subtitle"));
+
+    gtk_widget_set_app_paintable(window->source,TRUE);
 
 }
 
@@ -168,9 +231,13 @@ gboolean window_event(GtkWidget* widget,GdkEventWindowState* event,gpointer data
     if(event->new_window_state==43908){
         gtk_image_set_from_file(GTK_IMAGE(gtk_container_get_children(GTK_CONTAINER(data))->data),"./res/icon/windowing.svg");
 
+        gtk_widget_set_app_paintable(widget,FALSE);
+
     //窗口窗口化
     }else if(event->new_window_state==87168){
         gtk_image_set_from_file(GTK_IMAGE(gtk_container_get_children(GTK_CONTAINER(data))->data),"./res/icon/maximize.svg");
+
+        gtk_widget_set_app_paintable(widget,TRUE);
 
     }
 

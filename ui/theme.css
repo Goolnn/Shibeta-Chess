@@ -1,24 +1,52 @@
 @keyframes entry-button{
-    from {background: #F6F5F4;}
-    to {background: #DDDDDD;}
+    from{
+        background-color:rgba(0,0,0,0);
+
+    }
+
+    to{
+        background-color:rgba(0,0,0,0.125);
+
+    }
 
 }
 
 @keyframes leave-button{
-    from {background: #DDDDDD;}
-    to {background: #F6F5F4;}
+    from{
+        background-color:rgba(0,0,0,0.125);
+
+    }
+
+    to{
+        background-color:rgba(0,0,0,0);
+
+    }
 
 }
 
 @keyframes entry-button-red{
-    from {background: #F6F5F4;}
-    to {background: #ff6666;}
+    from{
+        background-color:rgba(255,0,0,0);
+
+    }
+
+    to{
+        background-color:rgba(255,0,0,0.5);
+
+    }
 
 }
 
 @keyframes leave-button-red{
-    from {background: #ff6666;}
-    to {background: #F6F5F4;}
+    from{
+        background-color:rgba(255,0,0,0.5);
+
+    }
+
+    to{
+        background-color:rgba(255,0,0,0);
+
+    }
 
 }
 
@@ -41,11 +69,22 @@
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
+    border-radius: 0px 10px 0px 0px;
+
 }
 
 #leave-button-red{
     animation-name: leave-button-red;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
+
+    border-radius: 0px 10px 0px 0px;
+
+}
+
+#root{
+    background-color:white;
+
+    border-radius: 10px;
 
 }
