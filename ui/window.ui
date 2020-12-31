@@ -1,7 +1,5 @@
 <interface>
-    <object class="GtkEventBox" id="root">
-        <property name="name">root</property>
-
+    <object class="GtkEventBox" id="background">
         <child>
             <object class="GtkGrid">
                 <child>
@@ -25,11 +23,17 @@
                         </child>
 
                         <child>
-                            <object class="GtkEventBox" id="titleBox">
+                            <object class="GtkEventBox" id="title-box">
                                 <child>
                                     <object class="GtkLabel">
                                         <property name="margin-start">8</property>
                                         <property name="margin-end">8</property>
+
+                                        <attributes>
+                                            <attribute name="font-desc" value="黑体 10"/>
+                                            <attribute name="foreground" value="#ffffff"/>
+
+                                        </attributes>
 
                                     </object>
 
@@ -46,7 +50,7 @@
                         </child>
 
                         <child>
-                            <object class="GtkEventBox" id="titleBar">
+                            <object class="GtkEventBox" id="title-bar">
                                 <property name="hexpand">True</property>
 
                             </object>
@@ -59,7 +63,9 @@
                         </child>
 
                         <child>
-                            <object class="GtkEventBox" id="leftButton">
+                            <object class="GtkEventBox" id="left-button">
+                                <property name="name">left-button</property>
+                                
                                 <child>
                                     <object class="GtkImage">
                                         <property name="width-request">30</property>
@@ -82,7 +88,7 @@
                         </child>
 
                         <child>
-                            <object class="GtkEventBox" id="middleButton">
+                            <object class="GtkEventBox" id="middle-button">
                                 <child>
                                     <object class="GtkImage">
                                         <property name="width-request">30</property>
@@ -105,7 +111,7 @@
                         </child>
 
                         <child>
-                            <object class="GtkEventBox" id="rightButton">
+                            <object class="GtkEventBox" id="right-button">
                                 <child>
                                     <object class="GtkImage">
                                         <property name="width-request">30</property>
@@ -132,6 +138,40 @@
                     <packing>
                         <property name="left-attach">0</property>
                         <property name="top-attach">0</property>
+
+                    </packing>
+
+                </child>
+
+                <child>
+                    <object class="GtkGrid" id="root">
+                        <property name="name">root</property>
+
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+
+                    </object>
+
+                    <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+
+                    </packing>
+
+                </child>
+
+                <child>
+                    <object class="GtkBox">
+                        <property name="name">tool</property>
+
+                        <property name="hexpand">True</property>
+                        <property name="height-request">30</property>
+
+                    </object>
+
+                    <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">2</property>
 
                     </packing>
 

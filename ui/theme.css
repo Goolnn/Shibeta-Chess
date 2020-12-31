@@ -5,7 +5,7 @@
     }
 
     to{
-        background-color:rgba(0,0,0,0.125);
+        background-color:rgba(0,0,0,0.5);
 
     }
 
@@ -13,7 +13,7 @@
 
 @keyframes leave-button{
     from{
-        background-color:rgba(0,0,0,0.125);
+        background-color:rgba(0,0,0,0.5);
 
     }
 
@@ -69,8 +69,6 @@
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
-    border-radius: 0px 10px 0px 0px;
-
 }
 
 #leave-button-red{
@@ -78,13 +76,23 @@
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
 
-    border-radius: 0px 10px 0px 0px;
+}
+
+#title-bar{
+    background-color:rgb(32,32,32);
+
+    border-radius:10px 10px 0px 0px;
 
 }
 
 #root{
-    background-color:white;
+    background-color:rgb(255,255,255);
 
-    border-radius: 10px;
+}
+
+#tool{
+    background-color:rgb(32,32,32);
+
+    border-radius:0px 0px 10px 10px;
 
 }

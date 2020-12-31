@@ -1,0 +1,21 @@
+<interface>
+    <object class="GtkGrid" id="name-interface">
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+
+        <child>
+            <object class="GtkButton">
+
+            </object>
+
+            <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+
+            </packing>
+
+        </child>
+
+    </object>
+
+</interface>

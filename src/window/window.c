@@ -16,13 +16,23 @@ gboolean window_resize(GtkWidget*,GdkEventButton*,gpointer);
 gboolean window_event(GtkWidget*,GdkEventWindowState*,gpointer);
 
 //窗口按钮点击事件
-gboolean left_button(GtkWidget*,GdkEventButton*,gpointer);
-gboolean middle_button(GtkWidget*,GdkEventButton*,gpointer);
-gboolean right_button(GtkWidget*,GdkEventButton*,gpointer);
+gboolean left_button_event(GtkWidget*,GdkEventButton*,gpointer);
+gboolean middle_button_event(GtkWidget*,GdkEventButton*,gpointer);
+gboolean right_button_event(GtkWidget*,GdkEventButton*,gpointer);
 
 gboolean title_button(GtkWidget*,GdkEventButton*,gpointer);
 
-Window* shibetachess_window_new(GtkApplication* application){
+struct Window{
+    GtkWidget* source;
+
+    GtkWidget* title;
+    GtkWidget* subtitle;
+
+    GtkWidget* root;
+
+};
+
+Window* shibeta_chess_window_new(GtkApplication* application){
     //创建源窗口
     GtkWidget* source=gtk_application_window_new(application);
 
@@ -38,18 +48,26 @@ Window* shibetachess_window_new(GtkApplication* application){
 
 }
 
-void shibetachess_window_set_title(Window* window,const char* title){
+void shibeta_chess_window_set_title(Window* window,const char* title){
     gtk_window_set_title(GTK_WINDOW(window->source),title);
     gtk_label_set_label(GTK_LABEL(window->title),title);
 
 }
 
-void shibetachess_window_set_subtitle(Window* window,const char* subtitle){
+void shibeta_chess_window_set_subtitle(Window* window,const char* subtitle){
     gtk_label_set_label(GTK_LABEL(window->subtitle),subtitle);
 
 }
 
-void shibetachess_window_show(Window* window){
+void shibeta_chess_window_set_root(Window* window,GtkWidget* widget){
+    gtk_grid_remove_column(GTK_GRID(window->root),0);
+    gtk_grid_remove_row(GTK_GRID(window->root),0);
+
+    gtk_grid_attach(GTK_GRID(window->root),widget,0,0,1,1);
+
+}
+
+void shibeta_chess_window_show(Window* window){
     gtk_widget_show_all(window->source);
 
 }
@@ -77,46 +95,46 @@ void window_init(Window* window){
     gtk_builder_add_from_file(builder,"./ui/window.ui",NULL);
 
     //获取并添加主界面
-    GObject* root=gtk_builder_get_object(builder,"root");
-    gtk_container_add(GTK_CONTAINER(window->source),GTK_WIDGET(root));
+    GObject* background=gtk_builder_get_object(builder,"background");
+    gtk_container_add(GTK_CONTAINER(window->source),GTK_WIDGET(background));
 
     //窗口按钮
-    GObject* leftButton=gtk_builder_get_object(builder,"leftButton");
-    GObject* middleButton=gtk_builder_get_object(builder,"middleButton");
-    GObject* rightButton=gtk_builder_get_object(builder,"rightButton");
+    GObject* left_button=gtk_builder_get_object(builder,"left-button");
+    GObject* middle_button=gtk_builder_get_object(builder,"middle-button");
+    GObject* right_button=gtk_builder_get_object(builder,"right-button");
 
     //窗口标题
-    GObject* titleBox=gtk_builder_get_object(builder,"titleBox");
+    GObject* title_box=gtk_builder_get_object(builder,"title-box");
 
     //标题面板
-    GObject* titleBar=gtk_builder_get_object(builder,"titleBar");
+    GObject* title_bar=gtk_builder_get_object(builder,"title-bar");
 
     //窗口按钮事件
-    g_signal_connect(leftButton,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
-    g_signal_connect(leftButton,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
-    g_signal_connect(leftButton,"button-press-event",G_CALLBACK(left_button),window->source);
+    g_signal_connect(left_button,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
+    g_signal_connect(left_button,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
+    g_signal_connect(left_button,"button-press-event",G_CALLBACK(left_button_event),window->source);
 
-    g_signal_connect(middleButton,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
-    g_signal_connect(middleButton,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
-    g_signal_connect(middleButton,"button-press-event",G_CALLBACK(middle_button),window->source);
+    g_signal_connect(middle_button,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
+    g_signal_connect(middle_button,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
+    g_signal_connect(middle_button,"button-press-event",G_CALLBACK(middle_button_event),window->source);
 
-    g_signal_connect(rightButton,"enter-notify-event",G_CALLBACK(mouse_entry_button),rightButton);
-    g_signal_connect(rightButton,"leave-notify-event",G_CALLBACK(mouse_leave_button),rightButton);
-    g_signal_connect(rightButton,"button-press-event",G_CALLBACK(right_button),NULL);
+    g_signal_connect(right_button,"enter-notify-event",G_CALLBACK(mouse_entry_button),right_button);
+    g_signal_connect(right_button,"leave-notify-event",G_CALLBACK(mouse_leave_button),right_button);
+    g_signal_connect(right_button,"button-press-event",G_CALLBACK(right_button_event),NULL);
 
     //窗口最大化事件
-    g_signal_connect(window->source,"window-state-event",G_CALLBACK(window_event),middleButton);
+    g_signal_connect(window->source,"window-state-event",G_CALLBACK(window_event),middle_button);
 
     //窗口按钮动画
-    g_signal_connect(titleBox,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
-    g_signal_connect(titleBox,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
-    g_signal_connect(titleBox,"button-press-event",G_CALLBACK(title_button),NULL);
+    g_signal_connect(title_box,"enter-notify-event",G_CALLBACK(mouse_entry_button),NULL);
+    g_signal_connect(title_box,"leave-notify-event",G_CALLBACK(mouse_leave_button),NULL);
+    g_signal_connect(title_box,"button-press-event",G_CALLBACK(title_button),NULL);
     
     //窗口调整事件
-    g_signal_connect(root,"button-press-event",G_CALLBACK(window_resize),window->source);
+    g_signal_connect(background,"button-press-event",G_CALLBACK(window_resize),window->source);
 
     //窗口移动事件
-    g_signal_connect(titleBar,"button-press-event",G_CALLBACK(window_move),window->source);
+    g_signal_connect(title_bar,"button-press-event",G_CALLBACK(window_move),window->source);
 
     //加载CSS文件
     GtkCssProvider* provider=gtk_css_provider_new();
@@ -124,19 +142,28 @@ void window_init(Window* window){
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),GTK_STYLE_PROVIDER(provider),GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     //初始化窗口结构体内容
-    window->title=GTK_WIDGET(gtk_container_get_children(GTK_CONTAINER(titleBox))->data);
+    window->title=GTK_WIDGET(gtk_container_get_children(GTK_CONTAINER(title_box))->data);
     window->subtitle=GTK_WIDGET(gtk_builder_get_object(builder,"subtitle"));
 
-    gtk_widget_set_app_paintable(window->source,TRUE);
+    window->root=GTK_WIDGET(gtk_builder_get_object(builder,"root"));
+
+    GtkBuilder* builder2=gtk_builder_new();
+    gtk_builder_add_from_file(builder2,"./ui/name_interface.ui",NULL);
+
+    GtkWidget* a=gtk_button_new_with_label("asd");
+
+    gtk_widget_set_size_request(a,100,100);
+
+    shibeta_chess_window_set_root(window,a);
 
 }
 
-gboolean mouse_entry_button(GtkWidget *eventbox,GdkEventButton *event,gpointer data){
+gboolean mouse_entry_button(GtkWidget *event_box,GdkEventButton *event,gpointer data){
     if(data!=NULL){
-        gtk_widget_set_name(eventbox,"entry-button-red");
+        gtk_widget_set_name(event_box,"entry-button-red");
 
     }else{
-        gtk_widget_set_name(eventbox,"entry-button");
+        gtk_widget_set_name(event_box,"entry-button");
 
     }
   
@@ -144,12 +171,12 @@ gboolean mouse_entry_button(GtkWidget *eventbox,GdkEventButton *event,gpointer d
 
 }
 
-gboolean mouse_leave_button(GtkWidget *eventbox,GdkEventButton *event,gpointer data){
+gboolean mouse_leave_button(GtkWidget *event_box,GdkEventButton *event,gpointer data){
     if(data!=NULL){
-        gtk_widget_set_name(eventbox,"leave-button-red");
+        gtk_widget_set_name(event_box,"leave-button-red");
 
     }else{
-        gtk_widget_set_name(eventbox,"leave-button");
+        gtk_widget_set_name(event_box,"leave-button");
 
     }
   
@@ -158,7 +185,7 @@ gboolean mouse_leave_button(GtkWidget *eventbox,GdkEventButton *event,gpointer d
 }
 
 gboolean window_move(GtkWidget* widget,GdkEventButton* event,gpointer data){
-    if(event->y>RESIZE_BORDER || gtk_window_is_maximized(GTK_WINDOW(data))){
+    if(event->y>RESIZE_BORDER||gtk_window_is_maximized(GTK_WINDOW(data))){
         if(event->type==GDK_2BUTTON_PRESS){
             if(gtk_window_is_maximized(GTK_WINDOW(data))){
                 gtk_window_unmaximize(GTK_WINDOW(data));
@@ -231,13 +258,9 @@ gboolean window_event(GtkWidget* widget,GdkEventWindowState* event,gpointer data
     if(event->new_window_state==43908){
         gtk_image_set_from_file(GTK_IMAGE(gtk_container_get_children(GTK_CONTAINER(data))->data),"./res/icon/windowing.svg");
 
-        gtk_widget_set_app_paintable(widget,FALSE);
-
     //窗口窗口化
     }else if(event->new_window_state==87168){
         gtk_image_set_from_file(GTK_IMAGE(gtk_container_get_children(GTK_CONTAINER(data))->data),"./res/icon/maximize.svg");
-
-        gtk_widget_set_app_paintable(widget,TRUE);
 
     }
 
@@ -245,14 +268,14 @@ gboolean window_event(GtkWidget* widget,GdkEventWindowState* event,gpointer data
 
 }
 
-gboolean left_button(GtkWidget* widget,GdkEventButton* event,gpointer data){
+gboolean left_button_event(GtkWidget* widget,GdkEventButton* event,gpointer data){
     gtk_window_iconify(GTK_WINDOW(data));
 
     return FALSE;
 
 }
 
-gboolean middle_button(GtkWidget* widget,GdkEventButton* event,gpointer data){
+gboolean middle_button_event(GtkWidget* widget,GdkEventButton* event,gpointer data){
     if(gtk_window_is_maximized(GTK_WINDOW(data))){
         gtk_window_unmaximize(GTK_WINDOW(data));
 
@@ -265,7 +288,7 @@ gboolean middle_button(GtkWidget* widget,GdkEventButton* event,gpointer data){
 
 }
 
-gboolean right_button(GtkWidget* widget,GdkEventButton* event,gpointer data){
+gboolean right_button_event(GtkWidget* widget,GdkEventButton* event,gpointer data){
     //退出程序
     exit(0);
 
