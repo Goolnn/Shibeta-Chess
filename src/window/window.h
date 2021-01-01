@@ -3,22 +3,27 @@
 
 #include <gtk/gtk.h>
 
-#define RESIZE_BORDER 10
+typedef enum InterfaceName InterfaceName;
 
-typedef struct Window Window;
+enum InterfaceName{
+    INTERFACE_NAME_INPUT
+    
+};
 
 //新建窗口
-Window* shibeta_chess_window_new(GtkApplication*);
+GtkWidget* shibeta_chess_window_new(GtkApplication*);
 
-//设置窗口标题文本
-void shibeta_chess_window_set_title(Window*,const char*);
-//设置窗口副标题文本
-void shibeta_chess_window_set_subtitle(Window*,const char*);
+void shibeta_chess_window_set_interface(GtkWidget*,InterfaceName);
 
-//设置窗口主面板
-void shibeta_chess_window_set_root(Window*,GtkWidget*);
+// //设置窗口标题文本
+// void shibeta_chess_window_set_title(Window*,const char*);
+// //设置窗口副标题文本
+// void shibeta_chess_window_set_subtitle(Window*,const char*);
 
-//显示窗口
-void shibeta_chess_window_show(Window*);
+// //设置窗口主面板
+// void shibeta_chess_window_set_root(Window*,GtkWidget*);
+
+// //显示窗口
+// void shibeta_chess_window_show(Window*);
 
 #endif

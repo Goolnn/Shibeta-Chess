@@ -2,6 +2,8 @@
 
 #include "window/window.h"
 
+#include "data/user_data.h"
+
 void client_activate(GtkApplication*,gpointer);
 void server_activate(GtkApplication*,gpointer);
 
@@ -23,12 +25,6 @@ int main(int argc,char* argv[]){
     }else if(argc==2&&strcmp(argv[1],"--server")==0){
         g_signal_connect(application,"activate",G_CALLBACK(server_activate),NULL);
 
-    //未定义参数
-    }else{
-        printf("传入了未定义的参数！\n");
-
-        return -1;
-
     }
 
     //运行程序
@@ -42,16 +38,37 @@ int main(int argc,char* argv[]){
 }
 
 void client_activate(GtkApplication* application,gpointer data){
+    //启动窗口DEBUG界面
     gtk_window_set_interactive_debugging(TRUE);
 
-    //创建窗口
-    Window* window=shibeta_chess_window_new(application);
+    //初始化窗口参数
+    //实例化窗口
+    GtkWidget* window=shibeta_chess_window_new(application);
 
-    //设置窗口标题
-    shibeta_chess_window_set_title(window,"助屋棋");
+    //判断是否第一次游玩游戏
+    if(shibeta_chess_user_data_is_exist()){
+        shibeta_chess_user_data_init();
+
+        printf("%s\n",shibeta_chess_user_data_get_player_name());
+
+    }else{
+        shibeta_chess_user_data_create();
+
+        shibeta_chess_window_set_interface(window,INTERFACE_NAME_INPUT);
+
+    }
 
     //显示窗口
-    shibeta_chess_window_show(window);
+    gtk_widget_show_all(window);
+
+    // //创建窗口
+    // Window* window=shibeta_chess_window_new(application);
+
+    // //设置窗口标题
+    // shibeta_chess_window_set_title(window,"助屋棋");
+
+    // //显示窗口
+    // shibeta_chess_window_show(window);
 
     // //读取程序界面文件
     // GtkBuilder* builder=gtk_builder_new();

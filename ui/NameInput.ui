@@ -1,0 +1,73 @@
+<interface>
+    <object class="GtkGrid" id="root">
+        <property name="hexpand">True</property>
+
+        <property name="valign">center</property>
+
+        <child>
+            <object class="GtkLabel">
+                <property name="label">初次见面！请问你的名字是？</property>
+
+                <property name="halign">start</property>
+
+                <property name="margin-start">100</property>
+
+                <attributes>
+                    <attribute name="font-desc" value="16"/>
+
+                </attributes>
+
+            </object>
+
+            <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+
+            </packing>
+
+        </child>
+
+        <child>
+            <object class="GtkEntry" id="name-input">
+                <property name="hexpand">True</property>
+
+                <property name="margin-top">5</property>
+                <property name="margin-bottom">5</property>
+                <property name="margin-start">100</property>
+                <property name="margin-end">100</property>
+
+                <property name="placeholder-text">我叫……</property>
+            
+            </object>
+
+            <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+
+            </packing>
+
+        </child>
+
+        <child>
+            <object class="GtkButton" id="accept">
+                <property name="halign">end</property>
+
+                <property name="margin-end">100</property>
+
+                <property name="has-focus">True</property>
+
+                <property name="label">没错了</property>
+
+            </object>
+
+            <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+
+            </packing>
+        
+        </child>
+
+    </object>
+
+</interface>
