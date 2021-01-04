@@ -42,8 +42,9 @@ void shibeta_chess_user_data_init(){
     fread(player_name_byte,sizeof(player_name_byte),1,userdata);
 
     //设置玩家名称
-    player_name=malloc(*player_name_byte_size);
+    player_name=malloc(*player_name_byte_size+1);
     memcpy(player_name,player_name_byte,*player_name_byte_size);
+    player_name[*player_name_byte_size]='\0';
 
     //关闭流
     fclose(userdata);

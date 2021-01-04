@@ -10,7 +10,7 @@ GtkWidget* shibeta_chess_window_new(GtkApplication* application){
 
     //设置窗口标题
     gtk_window_set_title(GTK_WINDOW(window),"助屋棋");
-    gtk_window_set_default_size(GTK_WINDOW(window),640,480);
+    gtk_window_set_default_size(GTK_WINDOW(window),800,600);
     gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 
     return window;
@@ -18,11 +18,34 @@ GtkWidget* shibeta_chess_window_new(GtkApplication* application){
 }
 
 gboolean name_accept(GtkButton* button,gpointer data){
-    const char* name=gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(data)));
+    GtkBuilder* builder=GTK_BUILDER(data);
 
-    printf("%s %d\n",name,strlen(name));
+    GObject* name_input=gtk_builder_get_object(builder,"name-input");
+    GObject* warning=gtk_builder_get_object(builder,"warning");
 
-    shibeta_chess_user_data_write_player_name(name);
+    const char* name=gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(name_input)));
+
+    if(strlen(name)<=255){
+        if(strlen(name)>0){
+            gtk_label_set_text(GTK_LABEL(warning),"");
+            
+            shibeta_chess_user_data_create();
+
+            shibeta_chess_user_data_write_player_name(name);
+
+        }else{
+            gtk_label_set_text(GTK_LABEL(warning),"至少打个空格什么的作为名字吧……-_-");
+
+        }
+
+    }else{
+        char buffer[128];
+        sprintf(buffer,"请将名字长度控制在255字节以下，当前占用%d字节！",strlen(name));
+
+        gtk_label_set_text(GTK_LABEL(warning),buffer);
+
+    }
+
 
     return FALSE;
 
@@ -38,7 +61,7 @@ void shibeta_chess_window_set_interface(GtkWidget* window,InterfaceName name){
         GObject* name_input=gtk_builder_get_object(builder,"name-input");
         GObject* accept=gtk_builder_get_object(builder,"accept");
 
-        g_signal_connect(accept,"clicked",G_CALLBACK(name_accept),name_input);
+        g_signal_connect(accept,"clicked",G_CALLBACK(name_accept),builder);
 
     }
 

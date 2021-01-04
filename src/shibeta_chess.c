@@ -52,8 +52,6 @@ void client_activate(GtkApplication* application,gpointer data){
         printf("%s\n",shibeta_chess_user_data_get_player_name());
 
     }else{
-        shibeta_chess_user_data_create();
-
         shibeta_chess_window_set_interface(window,INTERFACE_NAME_INPUT);
 
     }

@@ -6,11 +6,35 @@
 
         <child>
             <object class="GtkLabel">
+                <property name="label">欢迎</property>
+
+                <property name="halign">center</property>
+
+                <property name="margin-bottom">32</property>
+
+                <attributes>
+                    <attribute name="font-desc" value="48"/>
+
+                </attributes>
+
+            </object>
+
+            <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+
+            </packing>
+
+        </child>
+
+        <child>
+            <object class="GtkLabel">
                 <property name="label">初次见面！请问你的名字是？</property>
 
                 <property name="halign">start</property>
 
                 <property name="margin-start">100</property>
+                <property name="margin-end">200</property>
 
                 <attributes>
                     <attribute name="font-desc" value="16"/>
@@ -21,7 +45,7 @@
 
             <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
+                <property name="top-attach">1</property>
 
             </packing>
 
@@ -42,7 +66,7 @@
 
             <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
+                <property name="top-attach">2</property>
 
             </packing>
 
@@ -62,7 +86,29 @@
 
             <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">3</property>
+
+            </packing>
+        
+        </child>
+
+        <child>
+            <object class="GtkLabel" id="warning">
+                <property name="halign">start</property>
+                <property name="valign">center</property>
+
+                <property name="margin-start">100</property>
+
+                <attributes>
+                    <attribute name="foreground" value="#FF0000"/>
+
+                </attributes>
+
+            </object>
+
+            <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
 
             </packing>
         
