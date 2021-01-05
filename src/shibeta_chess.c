@@ -2,6 +2,7 @@
 
 #include "window/window.h"
 
+#include "data/server_list.h"
 #include "data/user_data.h"
 
 void client_activate(GtkApplication*,gpointer);
@@ -49,7 +50,14 @@ void client_activate(GtkApplication* application,gpointer data){
     if(shibeta_chess_user_data_is_exist()){
         shibeta_chess_user_data_init();
 
-        printf("%s\n",shibeta_chess_user_data_get_player_name());
+        //判断服务器列表是否存在
+        if(shibeta_chess_server_list_is_exist()){
+
+
+        }else{
+            shibeta_chess_server_list_create();
+
+        }
 
     }else{
         shibeta_chess_window_set_interface(window,INTERFACE_NAME_INPUT);
@@ -58,29 +66,6 @@ void client_activate(GtkApplication* application,gpointer data){
 
     //显示窗口
     gtk_widget_show_all(window);
-
-    // //创建窗口
-    // Window* window=shibeta_chess_window_new(application);
-
-    // //设置窗口标题
-    // shibeta_chess_window_set_title(window,"助屋棋");
-
-    // //显示窗口
-    // shibeta_chess_window_show(window);
-
-    // //读取程序界面文件
-    // GtkBuilder* builder=gtk_builder_new();
-    // gtk_builder_add_from_file(builder,"./ui/name_interface.ui",NULL);
-
-    // shibeta_chess_window_set_root(window,GTK_WIDGET(gtk_builder_get_object(builder,"name-interface")));
-
-    // if(shibeta_chess_user_data_is_exist()){
-        
-
-    // }else{
-        
-
-    // }
 
 }
 

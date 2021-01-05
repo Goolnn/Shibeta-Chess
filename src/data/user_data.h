@@ -6,6 +6,8 @@
 #define USER_DATA_FILE_PATH "./data/Userdata.scd"
 #define USER_DATA_FILE_DIR "./data"
 
+typedef struct UserData UserData;
+
 typedef unsigned char byte;
 
 bool shibeta_chess_user_data_is_exist();
@@ -15,6 +17,14 @@ void shibeta_chess_user_data_init();
 
 char* shibeta_chess_user_data_get_player_name();
 
+void shibeta_chess_user_data_save(UserData);
+
 void shibeta_chess_user_data_write_player_name(const char*);
+
+struct UserData{
+    char* player_name;
+    byte uuid[16];
+
+};
 
 #endif
